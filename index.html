@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#172b25" />
+  <meta name="description" content="Một góc nhỏ để lắng lòng, thỉnh chuông và gửi lời an yên." />
+  <title>Chốn Thanh Tịnh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Chốn Thanh Tịnh, về đầu trang"><span class="brand-mark">✳</span><span>chốn <strong>thanh tịnh</strong></span></a>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false"><span id="soundIcon">♫</span><span id="soundLabel">Âm thanh: tắt</span></button>
+    </header>
+
+    <section class="intro" id="top">
+      <p class="eyebrow"><span></span> GÁC LẠI MỘT CHÚT BỘN BỀ <span></span></p>
+      <h1>Một khoảng lặng<br /><em>cho tâm an</em></h1>
+      <p class="intro-copy">Dừng chân đôi phút, lắng nghe tiếng chuông và gửi lại nơi đây một lời an lành.</p>
+    </section>
+
+    <section class="presence-card" aria-label="Người đang có mặt">
+      <div class="presence-total"><span class="live-dot"></span><strong id="peopleCount">0</strong><span>người đang có mặt</span></div>
+      <div class="presence-rooms"><span>Sân chùa <b id="courtyardCount">0</b></span><i></i><span>Chính điện <b id="hallCount">0</b></span></div>
+      <form class="join-form" id="joinForm">
+        <label class="sr-only" for="visitorName">Tên của bạn</label>
+        <input id="visitorName" name="name" maxlength="24" autocomplete="name" placeholder="Tên bạn (có thể để trống)" />
+        <button class="join-button" id="joinButton" type="submit">Vào sân chùa <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="welcome-note" id="welcomeNote" aria-live="polite">Bạn có thể ghé thăm trong yên lặng, không cần đăng ký.</p>
+    </section>
+
+    <section class="garden" aria-label="Không gian chùa">
+      <div class="garden-sky"></div><div class="sun"></div>
+      <div class="mountain mountain-back"></div><div class="mountain mountain-front"></div>
+      <div class="haze"></div>
+      <div class="temple-wrap" aria-hidden="true">
+        <div class="roof roof-top"></div><div class="roof roof-mid"></div>
+        <div class="temple-body"><div class="temple-sign">TÂM AN LẠC</div><div class="door door-left"></div><div class="door door-right"></div></div>
+        <div class="temple-base"></div><div class="step step-one"></div><div class="step step-two"></div>
+      </div>
+      <div class="pine pine-one" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="pine pine-two" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="pond"></div><div class="pond-shine"></div>
+      <div class="garden-caption"><span class="caption-icon">◉</span><span id="roomCaption">SÂN CHÙA</span><span class="caption-rule"></span><span class="caption-hint">Một nơi để thở chậm lại</span></div>
+      <div class="garden-actions">
+        <button class="round-action" id="bellButton" type="button" aria-label="Thỉnh chuông" title="Thỉnh chuông"><span>◉</span><small>Thỉnh chuông</small></button>
+        <button class="round-action" id="prayerButton" type="button" aria-label="Gửi lời an lành" title="Gửi lời an lành"><span>✧</span><small>Lời an lành</small></button>
+        <button class="round-action" id="meditateButton" type="button" aria-label="Ngồi tĩnh tâm" title="Ngồi tĩnh tâm"><span>☯</span><small>Tĩnh tâm</small></button>
+      </div>
+      <div class="bell-ripple" id="bellRipple" aria-hidden="true"></div>
+    </section>
+
+    <nav class="room-switcher" aria-label="Chọn không gian">
+      <button class="room-tab active" data-room="courtyard" type="button"><span>⌂</span><span>Sân chùa</span><small>Khoảng trời thoáng đãng</small></button>
+      <span class="room-divider"></span>
+      <button class="room-tab" data-room="hall" type="button"><span>▤</span><span>Chính điện</span><small>Nơi gửi lời thành tâm</small></button>
+    </nav>
+
+    <footer><span>Chốn Thanh Tịnh</span><i>✳</i><span>Mong bạn tìm thấy một chút bình yên.</span></footer>
+  </main>
+
+  <dialog class="modal" id="prayerModal" aria-labelledby="modalTitle">
+    <form method="dialog"><button class="modal-close" aria-label="Đóng">×</button></form>
+    <div class="modal-symbol">✧</div><p class="modal-kicker">GỬI ĐIỀU LÀNH</p><h2 id="modalTitle">Một lời an yên</h2>
+    <p class="modal-copy">Viết một lời chúc, một điều biết ơn, hay chỉ đơn giản là điều bạn muốn gửi vào khoảng lặng này.</p>
+    <form id="prayerForm" class="prayer-form"><label class="sr-only" for="prayerText">Lời an lành</label><textarea id="prayerText" maxlength="240" placeholder="Nguyện cho mọi người được bình an…" rows="4"></textarea><div class="modal-bottom"><span id="charCount">0 / 240</span><button type="submit">Gửi lời lành <span>→</span></button></div></form>
+    <p class="privacy-note">Lời viết được giữ riêng trên thiết bị này.</p>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
