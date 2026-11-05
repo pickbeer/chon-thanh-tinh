@@ -19,6 +19,14 @@ let currentUid = null;
 let database = null;
 let toastTimer;
 let audioContext;
+const hallSeats = [
+  [6, .98, [42, 58, 28, 72, 12, 88]],
+  [15, .88, [43, 57, 30, 70, 17, 83]],
+  [23, .79, [43, 57, 32, 68, 20, 80]],
+  [31, .70, [44, 56, 34, 66, 24, 76]],
+  [39, .61, [44, 56, 37, 63, 28, 72]],
+  [45, .54, [44, 56, 39, 61, 32, 68]]
+].flatMap(([bottom, scale, columns]) => columns.map((x) => ({ x, bottom, scale })));
 let authReady = Promise.resolve(null);
 
 const firebaseConfig = {
@@ -60,17 +68,17 @@ function renderPresence(data) {
 
   const inRoom = people.filter((person) => person.room === currentRoom);
   worshippers.replaceChildren();
-  inRoom.slice(0, 28).forEach((person, index) => {
+  inRoom.slice(0, hallSeats.length).forEach((person, index) => {
     const figure = document.createElement('span');
     const small = document.createElement('small');
     const head = document.createElement('b');
     const robe = document.createElement('i');
-    const column = index % 7;
-    const row = Math.floor(index / 7);
+    const seat = hallSeats[index];
     figure.className = 'worshipper visitor-person';
-    figure.style.setProperty('--person-x', `${8 + column * 14}%`);
-    figure.style.setProperty('--person-bottom', `${7 + row * 10}%`);
-    figure.style.setProperty('--person-scale', String(.58 + row * .1));
+    figure.style.setProperty('--person-x', `${seat.x}%`);
+    figure.style.setProperty('--person-bottom', `${seat.bottom}%`);
+    figure.style.setProperty('--person-scale', String(seat.scale));
+    figure.style.setProperty('--person-delay', `${(index % 6) * -0.55}s`);
     small.className = 'name-label';
     small.textContent = person.name;
     figure.append(small, head, robe);
