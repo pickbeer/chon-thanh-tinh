@@ -177,7 +177,7 @@
 .person-three i { background: #9c7656; }
 .person-four i { background: #6d7d80; }
 
-.garden.hall-view { background: #190a06; box-shadow: 0 16px 38px #3921121f; }
+.garden.hall-view { height: 360px; background: #190a06; box-shadow: 0 16px 38px #3921121f; }
 .hall-view .hall-interior { display: block; }
 .hall-view > .garden-sky,
 .hall-view > .sun,
@@ -194,7 +194,12 @@
 .hall-view .garden-actions { z-index: 7; top: auto; bottom: 12px; right: 15px; }
 .hall-view .round-action { background: #fffaf0e6; border-color: #f0dfbd; box-shadow: 0 4px 18px #14080566; }
 
+@media (min-width: 1000px) {
+  .garden.hall-view { height: 385px; }
+}
+
 @media (max-width: 620px) {
+  .garden.hall-view { height: 325px; }
   .enter-hall { left: 12px; bottom: 12px; padding: 10px 12px; }
   .hall-ceiling { inset: 0 3% 60%; }
   .hall-backwall { left: 13%; right: 13%; top: 21%; height: 43%; }
