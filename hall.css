@@ -71,7 +71,7 @@
   background: radial-gradient(circle, #fff2adba 0, #f9ca5259 36%, #ef9e220d 68%, transparent 70%);
   box-shadow: 0 0 38px #ffc64f80;
 }
-.buddha { position: relative; height: 95%; width: 84%; filter: drop-shadow(0 7px 10px #160904a8); }
+.buddha { position: relative; height: 100%; width: 100%; object-fit: contain; filter: drop-shadow(0 7px 10px #160904a8); }
 .hall-sign {
   position: absolute;
   z-index: 4;
@@ -168,6 +168,7 @@
 .worshipper { position: absolute; width: 25px; height: 49px; filter: drop-shadow(0 3px 2px #1a0b08aa); }
 .worshipper b { position: absolute; left: 8px; top: 0; width: 10px; height: 12px; background: #d3a06e; border-radius: 50% 50% 42% 42%; box-shadow: 0 -4px 0 #2b211a; }
 .worshipper i { position: absolute; left: 4px; top: 12px; width: 18px; height: 24px; background: #607265; clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%); border-radius: 5px 5px 2px 2px; }
+.name-label { position: absolute; z-index: 2; left: 50%; top: -15px; transform: translateX(-50%); max-width: 76px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 2px 5px; border: 1px solid #f1d99a66; border-radius: 8px; background: #23130ee8; color: #fff0cf; font: 600 8px "DM Sans", sans-serif; letter-spacing: .01em; }
 .person-one { left: 36%; bottom: 17%; }
 .person-two { left: 61%; bottom: 30%; transform: scale(.76); }
 .person-three { left: 25%; bottom: 38%; transform: scale(.62); }
