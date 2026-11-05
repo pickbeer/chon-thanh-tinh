@@ -165,9 +165,9 @@
 .row-one { top: 4%; left: 24%; width: 52%; height: 10%; }
 .row-two { top: 19%; left: 19%; width: 62%; height: 10%; }
 .row-three { top: 34%; left: 14%; width: 72%; height: 10%; }
-.row-four { top: 69%; left: 13%; width: 74%; height: 12%; }
-.row-five { top: 82%; left: 8%; width: 84%; height: 12%; }
-.row-six { top: 94%; left: 4%; width: 92%; height: 12%; }
+.row-four { top: 68%; left: 13%; width: 74%; height: 9%; }
+.row-five { top: 79%; left: 8%; width: 84%; height: 9%; }
+.row-six { top: 90%; left: 4%; width: 92%; height: 9%; }
 .worshippers { position: absolute; z-index: 5; inset: 0; pointer-events: none; }
 .worshipper { position: absolute; width: 25px; height: 49px; filter: drop-shadow(0 3px 2px #1a0b08aa); }
 .worshipper b { position: absolute; left: 8px; top: 0; width: 10px; height: 12px; background: #d3a06e; border-radius: 50% 50% 42% 42%; box-shadow: 0 -4px 0 #2b211a; }
