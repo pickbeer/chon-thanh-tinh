@@ -104,7 +104,7 @@
   position: absolute;
   z-index: 4;
   left: 50%;
-  bottom: 15%;
+  bottom: 22%;
   transform: translateX(-50%);
   height: 58px;
   width: 45%;
@@ -129,7 +129,7 @@
   left: 8%;
   right: 8%;
   bottom: -1%;
-  height: 45%;
+  height: 52%;
   clip-path: polygon(23% 0, 77% 0, 100% 100%, 0 100%);
   background: linear-gradient(180deg, #663a25, #895331 45%, #4c291b);
   border-top: 2px solid #bd8b4d;
@@ -152,20 +152,22 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr) 1.4fr repeat(3, 1fr);
   gap: 5px;
-  height: 16%;
+  height: 10%;
 }
-.mat-row i { background: linear-gradient(145deg, #94291e, #732219); border: 2px solid #bd8e39; box-shadow: 0 3px 0 #452117, inset 0 0 0 2px #79331f; }
+.mat-row i { position: relative; border-radius: 3px; background: linear-gradient(145deg, #a3462e, #76251e 72%); border: 1px solid #d2ae63; box-shadow: 0 3px 0 #452117, inset 0 0 0 2px #79331f; }
+.mat-row i::after { content: ""; position: absolute; inset: 3px; border: 1px solid #d9b96888; border-radius: 1px; }
 .mat-row i:nth-child(1) { grid-column: 1; }
 .mat-row i:nth-child(2) { grid-column: 2; }
 .mat-row i:nth-child(3) { grid-column: 3; }
 .mat-row i:nth-child(4) { grid-column: 5; }
 .mat-row i:nth-child(5) { grid-column: 6; }
 .mat-row i:nth-child(6) { grid-column: 7; }
-.row-one { top: 5%; transform: scale(.72); }
-.row-two { top: 28%; transform: scale(.84); }
-.row-three { top: 52%; transform: scale(.94); }
-.row-four { top: 60%; left: 8%; width: 84%; height: 17%; }
-.row-five { top: 79%; left: 3%; width: 94%; height: 19%; }
+.row-one { top: 4%; left: 24%; width: 52%; height: 10%; }
+.row-two { top: 19%; left: 19%; width: 62%; height: 10%; }
+.row-three { top: 34%; left: 14%; width: 72%; height: 10%; }
+.row-four { top: 69%; left: 13%; width: 74%; height: 12%; }
+.row-five { top: 82%; left: 8%; width: 84%; height: 12%; }
+.row-six { top: 94%; left: 4%; width: 92%; height: 12%; }
 .worshippers { position: absolute; z-index: 5; inset: 0; pointer-events: none; }
 .worshipper { position: absolute; width: 25px; height: 49px; filter: drop-shadow(0 3px 2px #1a0b08aa); }
 .worshipper b { position: absolute; left: 8px; top: 0; width: 10px; height: 12px; background: #d3a06e; border-radius: 50% 50% 42% 42%; box-shadow: 0 -4px 0 #2b211a; }
@@ -212,13 +214,15 @@
   .hall-columns i:nth-child(2) { left: 14%; }
   .hall-columns i:nth-child(3) { right: 14%; }
   .hall-columns i:nth-child(4) { right: 3%; }
-  .altar { width: 62%; bottom: 36%; height: 48px; }
-  .hall-floor { left: 2%; right: 2%; height: 44%; }
+  .altar { width: 62%; bottom: 30%; height: 48px; }
+  .hall-floor { left: 2%; right: 2%; height: 48%; }
   .hall-view .garden-actions { right: 10px; top: 10px; bottom: auto; transform: none; gap: 4px; }
   .hall-view .round-action { height: 46px; min-width: 47px; }
   .hall-view .garden-caption { left: 12px; }
-  .mat-row { height: 15%; gap: 3px; }
-  .row-four { left: 7%; width: 86%; height: 18%; }
+  .mat-row { gap: 3px; }
+  .row-four { left: 13%; width: 74%; }
+  .row-five { left: 8%; width: 84%; }
+  .row-six { left: 4%; width: 92%; }
   .person-one { left: 34%; }
   .person-two { left: 64%; }
 }
