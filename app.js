@@ -1,3 +1,7 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js';
+import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js';
+import { getDatabase, ref, onValue, set, onDisconnect } from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js';
+
 const $ = (selector) => document.querySelector(selector);
 const joinForm = $('#joinForm');
 const visitorName = $('#visitorName');
@@ -7,10 +11,25 @@ const garden = $('.garden');
 const modal = $('#prayerModal');
 const prayerForm = $('#prayerForm');
 const prayerText = $('#prayerText');
+const namesLine = $('#presenceNames');
+const worshippers = $('#worshippers');
 let currentRoom = 'courtyard';
 let visitor = null;
+let currentUid = null;
+let database = null;
 let toastTimer;
 let audioContext;
+let authReady = Promise.resolve(null);
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyAA3GSUsxarsCaguePSe0PNyWKRJojwNMc',
+  authDomain: 'chon-thanh-tinh-live.firebaseapp.com',
+  databaseURL: 'https://chon-thanh-tinh-live-default-rtdb.firebaseio.com',
+  projectId: 'chon-thanh-tinh-live',
+  storageBucket: 'chon-thanh-tinh-live.firebasestorage.app',
+  messagingSenderId: '111045636475',
+  appId: '1:111045636475:web:ced6378c18f81b986f0dde'
+};
 
 function showToast(message) {
   const toast = $('#toast');
@@ -20,22 +39,90 @@ function showToast(message) {
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
 }
 
-function updatePresence() {
-  $('#peopleCount').textContent = visitor ? '1' : '0';
-  $('#courtyardCount').textContent = visitor && currentRoom === 'courtyard' ? '1' : '0';
-  $('#hallCount').textContent = visitor && currentRoom === 'hall' ? '1' : '0';
+function renderPresence(data) {
+  const people = Object.entries(data || {})
+    .filter(([, person]) => person && typeof person.name === 'string' && ['courtyard', 'hall'].includes(person.room))
+    .map(([uid, person]) => ({ uid, name: person.name.slice(0, 24), room: person.room }));
+  $('#peopleCount').textContent = String(people.length);
+  $('#courtyardCount').textContent = String(people.filter((person) => person.room === 'courtyard').length);
+  $('#hallCount').textContent = String(people.filter((person) => person.room === 'hall').length);
+  namesLine.replaceChildren();
+  if (!people.length) {
+    namesLine.textContent = 'Chưa có ai tham gia';
+  } else {
+    people.forEach((person) => {
+      const name = document.createElement('span');
+      name.className = 'presence-name';
+      name.textContent = person.name;
+      namesLine.append(name);
+    });
+  }
+
+  const inRoom = people.filter((person) => person.room === currentRoom);
+  worshippers.replaceChildren();
+  inRoom.slice(0, 28).forEach((person, index) => {
+    const figure = document.createElement('span');
+    const small = document.createElement('small');
+    const head = document.createElement('b');
+    const robe = document.createElement('i');
+    const column = index % 7;
+    const row = Math.floor(index / 7);
+    figure.className = 'worshipper visitor-person';
+    figure.style.setProperty('--person-x', `${8 + column * 14}%`);
+    figure.style.setProperty('--person-bottom', `${7 + row * 10}%`);
+    figure.style.setProperty('--person-scale', String(.58 + row * .1));
+    small.className = 'name-label';
+    small.textContent = person.name;
+    figure.append(small, head, robe);
+    worshippers.append(figure);
+  });
 }
 
-joinForm.addEventListener('submit', (event) => {
+try {
+  const firebaseApp = initializeApp(firebaseConfig);
+  const auth = getAuth(firebaseApp);
+  database = getDatabase(firebaseApp);
+  authReady = signInAnonymously(auth).then(({ user }) => {
+    currentUid = user.uid;
+    onValue(ref(database, 'presence'), (snapshot) => renderPresence(snapshot.val() || {}), () => {
+      welcomeNote.textContent = 'Chưa kết nối được danh sách người đang có mặt.';
+    });
+    onValue(ref(database, '.info/connected'), (snapshot) => {
+      if (snapshot.val() && visitor && currentUid) {
+        const userRef = ref(database, `presence/${currentUid}`);
+        onDisconnect(userRef).remove().then(() => set(userRef, visitor)).catch(() => {});
+      }
+    });
+    return user;
+  }).catch(() => {
+    welcomeNote.textContent = 'Chưa kết nối được Firebase. Danh sách người tham gia chưa hoạt động.';
+    return null;
+  });
+} catch (error) {
+  welcomeNote.textContent = 'Chưa kết nối được dịch vụ đếm người tham gia.';
+}
+
+joinForm.addEventListener('submit', async (event) => {
   event.preventDefault();
-  const name = visitorName.value.trim();
-  visitor = { name: name || 'Bạn' };
-  welcomeNote.textContent = `Chào ${visitor.name}, mong bạn có một phút giây thật nhẹ lòng.`;
-  joinButton.innerHTML = 'Bạn đang ở đây <span aria-hidden="true">✓</span>';
-  visitorName.disabled = true;
-  joinButton.disabled = true;
-  updatePresence();
-  showToast('Chào mừng bạn ghé thăm 🌿');
+  const name = visitorName.value.trim().slice(0, 24) || 'Bạn';
+  const user = await authReady;
+  if (!user || !database) {
+    showToast('Đang kết nối danh sách người tham gia, vui lòng thử lại.');
+    return;
+  }
+  visitor = { name, room: currentRoom };
+  const userRef = ref(database, `presence/${user.uid}`);
+  try {
+    await onDisconnect(userRef).remove();
+    await set(userRef, visitor);
+    welcomeNote.textContent = `Chào ${name}, tên bạn đang hiển thị cùng mọi người.`;
+    joinButton.innerHTML = 'Bạn đang ở đây <span aria-hidden="true">✓</span>';
+    visitorName.disabled = true;
+    joinButton.disabled = true;
+  } catch (error) {
+    visitor = null;
+    showToast('Chưa ghi nhận được lượt tham gia. Vui lòng thử lại sau.');
+  }
 });
 
 function enterRoom(room) {
@@ -51,7 +138,11 @@ function enterRoom(room) {
   $('#enterHallButton').hidden = inHall;
   $('#roomCaption').textContent = inHall ? 'CHÍNH ĐIỆN' : 'SÂN CHÙA';
   $('.caption-hint').textContent = inHall ? 'Xin giữ lòng thanh tịnh' : 'Một nơi để thở chậm lại';
-  updatePresence();
+  if (visitor && currentUid && database) {
+    visitor = { ...visitor, room };
+    set(ref(database, `presence/${currentUid}`), visitor).catch(() => {});
+  }
+  if (database) onValue(ref(database, 'presence'), (snapshot) => renderPresence(snapshot.val() || {}), { onlyOnce: true });
 }
 
 document.querySelectorAll('.room-tab').forEach((tab) => {
