@@ -24,7 +24,7 @@ let authReady = Promise.resolve(null);
 const firebaseConfig = {
   apiKey: 'AIzaSyAA3GSUsxarsCaguePSe0PNyWKRJojwNMc',
   authDomain: 'chon-thanh-tinh-live.firebaseapp.com',
-  databaseURL: 'https://chon-thanh-tinh-live-default-rtdb.firebaseio.com',
+  databaseURL: 'https://chon-thanh-tinh-live-default-rtdb.asia-southeast1.firebasedatabase.app',
   projectId: 'chon-thanh-tinh-live',
   storageBucket: 'chon-thanh-tinh-live.firebasestorage.app',
   messagingSenderId: '111045636475',
@@ -142,7 +142,6 @@ function enterRoom(room) {
     visitor = { ...visitor, room };
     set(ref(database, `presence/${currentUid}`), visitor).catch(() => {});
   }
-  if (database) onValue(ref(database, 'presence'), (snapshot) => renderPresence(snapshot.val() || {}), { onlyOnce: true });
 }
 
 document.querySelectorAll('.room-tab').forEach((tab) => {
