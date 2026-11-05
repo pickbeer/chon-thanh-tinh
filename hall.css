@@ -193,7 +193,7 @@
 .hall-view .caption-icon { color: #e2bb66; }
 .hall-view .caption-hint { color: #e7d4b6; }
 .hall-view .caption-rule { background: #f3e4c366; }
-.hall-view .garden-actions { z-index: 7; top: auto; bottom: 12px; right: 15px; }
+.hall-view .garden-actions { z-index: 7; top: 18px; bottom: auto; right: 22px; transform: none; }
 .hall-view .round-action { background: #fffaf0e6; border-color: #f0dfbd; box-shadow: 0 4px 18px #14080566; }
 
 @media (min-width: 1000px) {
@@ -214,7 +214,7 @@
   .hall-columns i:nth-child(4) { right: 3%; }
   .altar { width: 62%; bottom: 36%; height: 48px; }
   .hall-floor { left: 2%; right: 2%; height: 44%; }
-  .hall-view .garden-actions { right: 50%; transform: translateX(50%); bottom: 10px; gap: 5px; }
+  .hall-view .garden-actions { right: 10px; top: 10px; bottom: auto; transform: none; gap: 4px; }
   .hall-view .round-action { height: 46px; min-width: 47px; }
   .hall-view .garden-caption { left: 12px; }
   .mat-row { height: 15%; gap: 3px; }
