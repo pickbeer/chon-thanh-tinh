@@ -1,0 +1,217 @@
+/* Walk inside the main hall */
+.enter-hall {
+  position: absolute;
+  z-index: 7;
+  left: 22px;
+  bottom: 17px;
+  border: 1px solid #fff8;
+  background: #304e3fe8;
+  color: #fff8e9;
+  border-radius: 4px;
+  padding: 11px 15px;
+  font: 600 11px "DM Sans", sans-serif;
+  letter-spacing: .02em;
+  cursor: pointer;
+  box-shadow: 0 5px 15px #203a2e25;
+  transition: transform .2s, background .2s;
+}
+.enter-hall:hover { transform: translateY(-2px); background: #203a2e; }
+.enter-hall span { margin-left: 11px; color: #d9bd89; }
+.enter-hall[hidden] { display: none; }
+
+.hall-interior {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 50% 45%, #60331d 0, #2a120d 60%, #170906 100%);
+}
+.hall-ceiling {
+  position: absolute;
+  inset: 0 8% 58%;
+  background: repeating-linear-gradient(90deg, transparent 0 24%, #5c2818 24.2% 25%, transparent 25.2% 49%), linear-gradient(180deg, #170906 0 70%, #39170d);
+  clip-path: polygon(0 0, 100% 0, 74% 100%, 26% 100%);
+}
+.hall-ceiling::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(110deg, transparent 0 23%, #783d20 23.3% 24.1%, transparent 24.4% 48%);
+  opacity: .6;
+}
+.hall-backwall {
+  position: absolute;
+  left: 23%;
+  right: 23%;
+  top: 21%;
+  height: 44%;
+  background: radial-gradient(ellipse at 50% 45%, #844323, #492012 70%, #2b100a);
+  border: 2px solid #a05225;
+  box-shadow: 0 0 35px #0e0604 inset;
+}
+.hall-niche {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 30%;
+  width: min(34%, 250px);
+  height: 43%;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse, #a7662b4d, transparent 72%);
+}
+.halo {
+  position: absolute;
+  width: 76%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff2adba 0, #f9ca5259 36%, #ef9e220d 68%, transparent 70%);
+  box-shadow: 0 0 38px #ffc64f80;
+}
+.buddha { position: relative; height: 95%; width: 84%; filter: drop-shadow(0 7px 10px #160904a8); }
+.hall-sign {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 21.5%;
+  transform: translateX(-50%);
+  padding: 5px 18px;
+  color: #f0d778;
+  border: 1px solid #d3a332;
+  background: #51210f;
+  font: 600 11px "Playfair Display", serif;
+  letter-spacing: .2em;
+  white-space: nowrap;
+}
+.hall-columns { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
+.hall-columns i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2.2%;
+  background: linear-gradient(90deg, #7e291a, #ba3a24 42%, #792217);
+  box-shadow: inset 3px 0 #d15a32, 0 0 0 1px #351008;
+}
+.hall-columns i:nth-child(1) { left: 7%; }
+.hall-columns i:nth-child(2) { left: 22%; }
+.hall-columns i:nth-child(3) { right: 22%; }
+.hall-columns i:nth-child(4) { right: 7%; }
+.altar {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 36%;
+  transform: translateX(-50%);
+  height: 58px;
+  width: 45%;
+  background: linear-gradient(180deg, #b78139 0 10%, #6f3917 12% 28%, #a46626 32% 70%, #583018 73%);
+  border-top: 5px solid #d1a44f;
+  box-shadow: 0 12px 20px #14070580;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8%;
+}
+.altar > i { position: absolute; left: -3%; right: -3%; bottom: -7px; height: 8px; background: #d6b267; border: 2px solid #593219; }
+.altar-vase { position: absolute; top: -27px; color: #f0c36a; font-size: 20px; text-shadow: 0 0 8px #ffc64f; }
+.vase-left { left: 12%; }
+.vase-right { right: 12%; }
+.altar-candle { position: absolute; top: -29px; color: #ffdb74; font-size: 29px; text-shadow: 0 0 13px #ffc84b; }
+.candle-left { left: 31%; }
+.candle-right { right: 31%; }
+.incense { position: absolute; top: -20px; color: #f3d48a; font-size: 19px; }
+.hall-floor {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -1%;
+  height: 45%;
+  clip-path: polygon(23% 0, 77% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, #663a25, #895331 45%, #4c291b);
+  border-top: 2px solid #bd8b4d;
+}
+.hall-floor::before {
+  content: "";
+  position: absolute;
+  left: 42%;
+  right: 42%;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #a22b20, #b23b27 50%, #8d2119);
+  border-left: 2px solid #d2a247;
+  border-right: 2px solid #d2a247;
+}
+.mat-row {
+  position: absolute;
+  left: 24%;
+  width: 52%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 1.4fr repeat(3, 1fr);
+  gap: 5px;
+  height: 16%;
+}
+.mat-row i { background: linear-gradient(145deg, #94291e, #732219); border: 2px solid #bd8e39; box-shadow: 0 3px 0 #452117, inset 0 0 0 2px #79331f; }
+.mat-row i:nth-child(1) { grid-column: 1; }
+.mat-row i:nth-child(2) { grid-column: 2; }
+.mat-row i:nth-child(3) { grid-column: 3; }
+.mat-row i:nth-child(4) { grid-column: 5; }
+.mat-row i:nth-child(5) { grid-column: 6; }
+.mat-row i:nth-child(6) { grid-column: 7; }
+.row-one { top: 5%; transform: scale(.72); }
+.row-two { top: 28%; transform: scale(.84); }
+.row-three { top: 52%; transform: scale(.94); }
+.row-four { top: 75%; left: 11%; width: 78%; height: 19%; }
+.worshippers { position: absolute; z-index: 5; inset: 0; pointer-events: none; }
+.worshipper { position: absolute; width: 25px; height: 49px; filter: drop-shadow(0 3px 2px #1a0b08aa); }
+.worshipper b { position: absolute; left: 8px; top: 0; width: 10px; height: 12px; background: #d3a06e; border-radius: 50% 50% 42% 42%; box-shadow: 0 -4px 0 #2b211a; }
+.worshipper i { position: absolute; left: 4px; top: 12px; width: 18px; height: 24px; background: #607265; clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%); border-radius: 5px 5px 2px 2px; }
+.person-one { left: 36%; bottom: 17%; }
+.person-two { left: 61%; bottom: 30%; transform: scale(.76); }
+.person-three { left: 25%; bottom: 38%; transform: scale(.62); }
+.person-four { right: 26%; bottom: 42%; transform: scale(.6); }
+.person-two i { background: #805c79; }
+.person-three i { background: #9c7656; }
+.person-four i { background: #6d7d80; }
+
+.garden.hall-view { height: 440px; background: #190a06; box-shadow: 0 16px 38px #3921121f; }
+.hall-view .hall-interior { display: block; }
+.hall-view > .garden-sky,
+.hall-view > .sun,
+.hall-view > .mountain,
+.hall-view > .haze,
+.hall-view > .temple-wrap,
+.hall-view > .pine,
+.hall-view > .pond,
+.hall-view > .pond-shine { display: none; }
+.hall-view .garden-caption { z-index: 6; color: #f5e9cb; }
+.hall-view .caption-icon { color: #e2bb66; }
+.hall-view .caption-hint { color: #e7d4b6; }
+.hall-view .caption-rule { background: #f3e4c366; }
+.hall-view .garden-actions { z-index: 7; top: auto; bottom: 12px; right: 15px; }
+.hall-view .round-action { background: #fffaf0e6; border-color: #f0dfbd; box-shadow: 0 4px 18px #14080566; }
+
+@media (max-width: 620px) {
+  .garden.hall-view { height: 420px; }
+  .enter-hall { left: 12px; bottom: 12px; padding: 10px 12px; }
+  .hall-ceiling { inset: 0 3% 60%; }
+  .hall-backwall { left: 13%; right: 13%; top: 21%; height: 43%; }
+  .hall-niche { width: 44%; top: 29%; height: 43%; }
+  .hall-sign { top: 22%; font-size: 9px; padding: 4px 12px; }
+  .hall-columns i { width: 3%; }
+  .hall-columns i:nth-child(1) { left: 3%; }
+  .hall-columns i:nth-child(2) { left: 14%; }
+  .hall-columns i:nth-child(3) { right: 14%; }
+  .hall-columns i:nth-child(4) { right: 3%; }
+  .altar { width: 62%; bottom: 36%; height: 48px; }
+  .hall-floor { left: 2%; right: 2%; height: 44%; }
+  .hall-view .garden-actions { right: 50%; transform: translateX(50%); bottom: 10px; gap: 5px; }
+  .hall-view .round-action { height: 46px; min-width: 47px; }
+  .hall-view .garden-caption { left: 12px; }
+  .mat-row { height: 15%; gap: 3px; }
+  .row-four { left: 7%; width: 86%; height: 18%; }
+  .person-one { left: 34%; }
+  .person-two { left: 64%; }
+}
