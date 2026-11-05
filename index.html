@@ -28,6 +28,7 @@
     <section class="presence-card" aria-label="Người đang có mặt">
       <div class="presence-total"><span class="live-dot"></span><strong id="peopleCount">0</strong><span>người đang có mặt</span></div>
       <div class="presence-rooms"><span>Sân chùa <b id="courtyardCount">0</b></span><i></i><span>Chính điện <b id="hallCount">0</b></span></div>
+      <div class="presence-names" id="presenceNames" aria-live="polite">Đang tải danh sách người tham gia…</div>
       <form class="join-form" id="joinForm">
         <label class="sr-only" for="visitorName">Tên của bạn</label>
         <input id="visitorName" name="name" maxlength="24" autocomplete="name" placeholder="Tên bạn (có thể để trống)" />
@@ -65,8 +66,9 @@
           <div class="mat-row row-five"><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <div class="mat-row row-six"><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </div>
-        <div class="worshippers" aria-hidden="true"><span class="worshipper person-one"><small class="name-label">An</small><b></b><i></i></span><span class="worshipper person-two"><small class="name-label">Tâm</small><b></b><i></i></span><span class="worshipper person-three"><small class="name-label">Minh</small><b></b><i></i></span><span class="worshipper person-four"><small class="name-label">Lan</small><b></b><i></i></span></div>
+        
       </div>
+      <div class="worshippers" id="worshippers" aria-hidden="true"></div>
       <div class="garden-caption"><span class="caption-icon">◉</span><span id="roomCaption">SÂN CHÙA</span><span class="caption-rule"></span><span class="caption-hint">Một nơi để thở chậm lại</span></div>
       <button class="enter-hall" id="enterHallButton" type="button">Vào chính điện <span aria-hidden="true">→</span></button>
       <div class="garden-actions">
@@ -94,6 +96,6 @@
     <p class="privacy-note">Lời viết được giữ riêng trên thiết bị này.</p>
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=2026-11-05-2"></script>
+  <script type="module" src="app.js?v=presence-2026-11-05"></script>
 </body>
 </html>
