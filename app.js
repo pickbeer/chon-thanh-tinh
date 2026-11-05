@@ -14,6 +14,7 @@ const prayerText = $('#prayerText');
 const namesLine = $('#presenceNames');
 const worshippers = $('#worshippers');
 let currentRoom = 'courtyard';
+let presenceData = {};
 let visitor = null;
 let currentUid = null;
 let database = null;
@@ -92,7 +93,7 @@ try {
   database = getDatabase(firebaseApp);
   authReady = signInAnonymously(auth).then(({ user }) => {
     currentUid = user.uid;
-    onValue(ref(database, 'presence'), (snapshot) => renderPresence(snapshot.val() || {}), () => {
+    onValue(ref(database, 'presence'), (snapshot) => {\n      presenceData = snapshot.val() || {};\n      renderPresence(presenceData);\n    }, () => {
       welcomeNote.textContent = 'Chưa kết nối được danh sách người đang có mặt.';
     });
     onValue(ref(database, '.info/connected'), (snapshot) => {
