@@ -226,3 +226,42 @@
   .person-one { left: 34%; }
   .person-two { left: 64%; }
 }
+
+/* Gentle, staggered movement keeps living visitors noticeable without distracting from the Buddha. */
+.visitor-person {
+  animation: devotee-breathe 4.1s ease-in-out infinite;
+  animation-delay: var(--person-delay, 0s);
+  transform-origin: bottom center;
+}
+.visitor-person b {
+  transform-origin: 50% 100%;
+  animation: devotee-bow 7.2s ease-in-out infinite;
+  animation-delay: var(--person-delay, 0s);
+}
+.visitor-person i {
+  background-image: linear-gradient(90deg, #0002, #fff2 48%, #0002);
+  transform-origin: 50% 0;
+}
+.visitor-person .name-label {
+  top: -18px;
+  max-width: 112px;
+  padding: 2px 6px;
+  border-color: #f1d99a88;
+  background: #23130ef2;
+  color: #fff4d9;
+  box-shadow: 0 2px 6px #12080570;
+  font-size: 8px;
+  line-height: 1.25;
+}
+@keyframes devotee-breathe {
+  0%, 100% { transform: translateY(0) scale(var(--person-scale)); }
+  50% { transform: translateY(-2px) scale(var(--person-scale)); }
+}
+@keyframes devotee-bow {
+  0%, 62%, 100% { transform: rotate(0deg); }
+  68% { transform: rotate(7deg); }
+  74% { transform: rotate(0deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visitor-person, .visitor-person b { animation: none; }
+}
