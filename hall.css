@@ -55,9 +55,9 @@
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: 30%;
+  top: 27%;
   width: min(34%, 250px);
-  height: 43%;
+  height: 40%;
   transform: translateX(-50%);
   display: grid;
   place-items: center;
@@ -71,7 +71,7 @@
   background: radial-gradient(circle, #fff2adba 0, #f9ca5259 36%, #ef9e220d 68%, transparent 70%);
   box-shadow: 0 0 38px #ffc64f80;
 }
-.buddha { position: relative; height: 100%; width: 100%; object-fit: contain; filter: drop-shadow(0 7px 10px #160904a8); }
+.buddha { position: relative; height: 100%; width: 100%; object-fit: contain; transform: translateY(-8px); filter: drop-shadow(0 7px 10px #160904a8); }
 .hall-sign {
   position: absolute;
   z-index: 4;
@@ -177,7 +177,7 @@
 .person-three i { background: #9c7656; }
 .person-four i { background: #6d7d80; }
 
-.garden.hall-view { height: 440px; background: #190a06; box-shadow: 0 16px 38px #3921121f; }
+.garden.hall-view { background: #190a06; box-shadow: 0 16px 38px #3921121f; }
 .hall-view .hall-interior { display: block; }
 .hall-view > .garden-sky,
 .hall-view > .sun,
@@ -195,11 +195,10 @@
 .hall-view .round-action { background: #fffaf0e6; border-color: #f0dfbd; box-shadow: 0 4px 18px #14080566; }
 
 @media (max-width: 620px) {
-  .garden.hall-view { height: 420px; }
   .enter-hall { left: 12px; bottom: 12px; padding: 10px 12px; }
   .hall-ceiling { inset: 0 3% 60%; }
   .hall-backwall { left: 13%; right: 13%; top: 21%; height: 43%; }
-  .hall-niche { width: 44%; top: 29%; height: 43%; }
+  .hall-niche { width: 44%; top: 27%; height: 39%; }
   .hall-sign { top: 22%; font-size: 9px; padding: 4px 12px; }
   .hall-columns i { width: 3%; }
   .hall-columns i:nth-child(1) { left: 3%; }
