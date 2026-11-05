@@ -93,7 +93,10 @@ try {
   database = getDatabase(firebaseApp);
   authReady = signInAnonymously(auth).then(({ user }) => {
     currentUid = user.uid;
-    onValue(ref(database, 'presence'), (snapshot) => {\n      presenceData = snapshot.val() || {};\n      renderPresence(presenceData);\n    }, () => {
+    onValue(ref(database, 'presence'), (snapshot) => {
+      presenceData = snapshot.val() || {};
+      renderPresence(presenceData);
+    }, () => {
       welcomeNote.textContent = 'Chưa kết nối được danh sách người đang có mặt.';
     });
     onValue(ref(database, '.info/connected'), (snapshot) => {
