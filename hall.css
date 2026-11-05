@@ -61,6 +61,7 @@
   transform: translateX(-50%);
   display: grid;
   place-items: center;
+  overflow: hidden;
   background: radial-gradient(ellipse, #a7662b4d, transparent 72%);
 }
 .halo {
@@ -71,7 +72,7 @@
   background: radial-gradient(circle, #fff2adba 0, #f9ca5259 36%, #ef9e220d 68%, transparent 70%);
   box-shadow: 0 0 38px #ffc64f80;
 }
-.buddha { position: relative; height: 100%; width: 100%; object-fit: contain; transform: translateY(-8px); filter: drop-shadow(0 7px 10px #160904a8); }
+.buddha { position: relative; align-self: end; height: 78%; width: 84%; object-fit: contain; transform: translateY(-12px); filter: drop-shadow(0 7px 10px #160904a8); }
 .hall-sign {
   position: absolute;
   z-index: 4;
