@@ -38,20 +38,26 @@ joinForm.addEventListener('submit', (event) => {
   showToast('Chào mừng bạn ghé thăm 🌿');
 });
 
-document.querySelectorAll('.room-tab').forEach((tab) => {
-  tab.addEventListener('click', () => {
-    currentRoom = tab.dataset.room;
-    document.querySelectorAll('.room-tab').forEach((item) => {
-      const active = item === tab;
-      item.classList.toggle('active', active);
-      item.setAttribute('aria-current', active ? 'page' : 'false');
-    });
-    const inHall = currentRoom === 'hall';
-    garden.classList.toggle('hall-view', inHall);
-    $('#roomCaption').textContent = inHall ? 'CHÍNH ĐIỆN' : 'SÂN CHÙA';
-    updatePresence();
+function enterRoom(room) {
+  currentRoom = room;
+  document.querySelectorAll('.room-tab').forEach((item) => {
+    const active = item.dataset.room === room;
+    item.classList.toggle('active', active);
+    item.setAttribute('aria-current', active ? 'page' : 'false');
   });
+  const inHall = room === 'hall';
+  garden.classList.toggle('hall-view', inHall);
+  $('#hallInterior').setAttribute('aria-hidden', String(!inHall));
+  $('#enterHallButton').hidden = inHall;
+  $('#roomCaption').textContent = inHall ? 'CHÍNH ĐIỆN' : 'SÂN CHÙA';
+  $('.caption-hint').textContent = inHall ? 'Xin giữ lòng thanh tịnh' : 'Một nơi để thở chậm lại';
+  updatePresence();
+}
+
+document.querySelectorAll('.room-tab').forEach((tab) => {
+  tab.addEventListener('click', () => enterRoom(tab.dataset.room));
 });
+$('#enterHallButton').addEventListener('click', () => enterRoom('hall'));
 
 $('#prayerButton').addEventListener('click', () => {
   prayerText.value = '';
