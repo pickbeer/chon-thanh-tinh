@@ -354,3 +354,45 @@
 @media (prefers-reduced-motion: reduce) {
   .hall-columns i::before, .hall-columns i::after { text-shadow: none; }
 }
+
+/* A temple aisle with two tall foreground pillars and two shorter pillars beside the altar. */
+.hall-columns i {
+  background:
+    linear-gradient(to bottom, #e8c96f 0 2%, transparent 2.3% 96%, #e8c96f 96.5% 98%, transparent 98.4%),
+    linear-gradient(90deg, #58150f, #bd472b 22%, #792015 48%, #c94f30 76%, #58140d);
+  border-left: 1px solid #e8ba61;
+  border-right: 1px solid #47120b;
+  box-shadow: inset 4px 0 7px #f5d48055, inset -4px 0 8px #23090599, 0 0 0 1px #351008;
+}
+.hall-columns i:nth-child(1) { left: 7%; right: auto; top: 0; bottom: 0; width: 4%; }
+.hall-columns i:nth-child(2) { left: 22%; right: auto; top: 20%; bottom: 32%; width: 2.8%; }
+.hall-columns i:nth-child(3) { right: 22%; left: auto; top: 20%; bottom: 32%; width: 2.8%; }
+.hall-columns i:nth-child(4) { right: 7%; left: auto; top: 0; bottom: 0; width: 4%; }
+.hall-columns i::before {
+  left: -18%;
+  right: -18%;
+  top: 0;
+  height: 20px;
+  background:
+    repeating-linear-gradient(90deg, #e7c66c 0 2px, #8b2a1b 2px 7px, #d5a94f 7px 9px, #782015 9px 13px);
+  border: 1px solid #efcf7b;
+  clip-path: polygon(8% 0, 92% 0, 100% 75%, 90% 100%, 10% 100%, 0 75%);
+  box-shadow: 0 3px 6px #160604aa;
+}
+.hall-columns i::after {
+  content: "";
+  position: absolute;
+  inset: 6% 12% 5%;
+  border: 1px solid #e6be6688;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20420%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23edca72%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M50%2018c-12-15-28%202-15%2012-12%209%201%2024%2015%2013%2014%2011%2027-4%2015-13%2013-10-3-27-15-12z%22%2F%3E%3Cpath%20d%3D%22M50%2046v300%22%2F%3E%3Cpath%20d%3D%22M50%2082c-8-13-22-9-19%202%203%209%2013%209%2019%2018%206-9%2016-9%2019-18%203-11-11-15-19-2zM50%20146c-8-13-22-9-19%202%203%209%2013%209%2019%2018%206-9%2016-9%2019-18%203-11-11-15-19-2zM50%20210c-8-13-22-9-19%202%203%209%2013%209%2019%2018%206-9%2016-9%2019-18%203-11-11-15-19-2z%22%2F%3E%3Cpath%20d%3D%22M50%20267c-4-24-21-28-23-10-1%209%208%2017%2023%2023%2015-6%2024-14%2023-23-2-18-19-14-23%2010z%22%2F%3E%3Cpath%20d%3D%22M50%20277c-16-19-29-7-20%207%205%207%2012%209%2020%2010%208-1%2015-3%2020-10%209-14-4-26-20-7z%22%2F%3E%3Cpath%20d%3D%22M50%20283c-9-24-21-18-17-4%202%208%209%2013%2017%2017%208-4%2015-9%2017-17%204-14-8-20-17%204z%22%2F%3E%3Cpath%20d%3D%22M50%20300v39M50%20321c-15-16-28-10-19%201%206%207%2013%208%2019%208M50%20321c15-16%2028-10%2019%201-6%207-13%208-19%208%22%2F%3E%3Cpath%20d%3D%22M50%20365c-12-14-28%201-15%2011-12%209%201%2023%2015%2012%2014%2011%2027-3%2015-12%2013-10-3-25-15-11z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center 50% / 90% 100% no-repeat;
+  filter: drop-shadow(0 0 3px #e8bc5c55);
+}
+.hall-columns i:nth-child(2)::after,
+.hall-columns i:nth-child(3)::after { inset: 8% 10%; background-size: 100% 100%; }
+@media (max-width: 620px) {
+  .hall-columns i:nth-child(1) { left: 4%; width: 4.5%; top: 0; bottom: 0; }
+  .hall-columns i:nth-child(2) { left: 16%; width: 3.2%; top: 22%; bottom: 31%; }
+  .hall-columns i:nth-child(3) { right: 16%; width: 3.2%; top: 22%; bottom: 31%; }
+  .hall-columns i:nth-child(4) { right: 4%; width: 4.5%; top: 0; bottom: 0; }
+  .hall-columns i::before { height: 13px; }
+}
