@@ -283,7 +283,7 @@ $('#soundToggle').addEventListener('click', (event) => {
   const button = event.currentTarget;
   const enabled = button.getAttribute('aria-pressed') !== 'true';
   button.setAttribute('aria-pressed', String(enabled));
-  $('#soundLabel').textContent = `Âm thanh: ${enabled ? 'bật' : 'tắt'}`;
+  $('#soundLabel').textContent = `Chuông: ${enabled ? 'bật' : 'tắt'}`;
   $('#soundIcon').textContent = enabled ? '♫' : '♪';
   if (enabled) playBell();
 });
@@ -298,6 +298,7 @@ $('#meditateButton').addEventListener('click', async (event) => {
     try {
       await startMeditationSound();
       button.setAttribute('aria-label', 'Dừng âm thanh thiền');
+      button.title = 'Dừng âm thanh thiền';
       button.querySelector('small').textContent = 'Dừng thiền';
       showToast('Âm thiền nhẹ đang phát. Chúc bạn tĩnh tâm. 🌿');
     } catch (error) {
@@ -309,6 +310,7 @@ $('#meditateButton').addEventListener('click', async (event) => {
   } else {
     stopMeditationSound();
     button.setAttribute('aria-label', 'Ngồi tĩnh tâm');
+    button.title = 'Bật âm thanh thiền';
     button.querySelector('small').textContent = 'Tĩnh tâm';
     showToast('Âm thanh thiền đã dừng.');
   }
