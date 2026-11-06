@@ -265,3 +265,35 @@
 @media (prefers-reduced-motion: reduce) {
   .visitor-person, .visitor-person b { animation: none; }
 }
+
+/* Larger hall and subtle candle, incense, and meditation ambience. */
+.hall-niche { width: min(44%, 360px); }
+.altar-candle { transform-origin: 50% 100%; animation: candle-glow 1.15s ease-in-out infinite alternate; }
+.incense { animation: incense-rise 3.8s ease-in-out infinite; }
+.garden.meditating .halo { animation: meditative-halo 7s ease-in-out infinite alternate; }
+.garden.meditating .altar-candle { animation-duration: 1.7s; }
+@keyframes candle-glow {
+  from { opacity: .78; filter: brightness(.9); transform: scaleY(.94) rotate(-1deg); }
+  to { opacity: 1; filter: brightness(1.22); transform: scaleY(1.04) rotate(1deg); }
+}
+@keyframes incense-rise {
+  0%, 100% { opacity: .64; transform: translateY(1px) scale(.98); }
+  50% { opacity: 1; transform: translateY(-4px) scale(1.04); }
+}
+@keyframes meditative-halo {
+  from { transform: scale(.96); opacity: .78; }
+  to { transform: scale(1.04); opacity: 1; }
+}
+@media (min-width: 1200px) {
+  .garden.hall-view { height: 500px; }
+  .hall-view .garden-actions { right: 28px; top: 22px; }
+}
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .garden.hall-view { height: 440px; }
+}
+@media (max-width: 620px) {
+  .hall-niche { width: 44%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .altar-candle, .incense, .garden.meditating .halo { animation: none; }
+}
