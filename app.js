@@ -20,6 +20,10 @@ let currentUid = null;
 let database = null;
 let toastTimer;
 let audioContext;
+let meditationActive = false;
+let meditationBus = null;
+let meditationOscillators = [];
+let meditationChimeTimer = null;
 const hallSeats = [
   [6, .98, [42, 58, 28, 72, 12, 88]],
   [15, .88, [43, 57, 30, 70, 17, 83]],
@@ -202,6 +206,70 @@ function playBell() {
   }
 }
 
+function playMeditationChime() {
+  if (!audioContext || !meditationBus) return;
+  const now = audioContext.currentTime;
+  [220, 330, 440, 659].forEach((frequency, index) => {
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    gain.gain.setValueAtTime(.0001, now);
+    gain.gain.exponentialRampToValueAtTime([.026, .014, .008, .003][index], now + .35);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + 7.5);
+    oscillator.connect(gain).connect(meditationBus);
+    oscillator.start(now);
+    oscillator.stop(now + 7.6);
+  });
+}
+
+async function startMeditationSound() {
+  audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+  await audioContext.resume();
+
+  const now = audioContext.currentTime;
+  const bus = audioContext.createGain();
+  bus.gain.setValueAtTime(.0001, now);
+  bus.gain.linearRampToValueAtTime(.46, now + 2);
+  bus.connect(audioContext.destination);
+  meditationBus = bus;
+
+  const filter = audioContext.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 480;
+  filter.connect(bus);
+
+  [[110, .055], [164.81, .025], [220, .012]].forEach(([frequency, volume]) => {
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    gain.gain.value = volume;
+    oscillator.connect(gain).connect(filter);
+    oscillator.start(now);
+    meditationOscillators.push(oscillator);
+  });
+
+  playMeditationChime();
+  meditationChimeTimer = setInterval(playMeditationChime, 12500);
+}
+
+function stopMeditationSound() {
+  if (meditationChimeTimer) clearInterval(meditationChimeTimer);
+  meditationChimeTimer = null;
+  const bus = meditationBus;
+  meditationBus = null;
+  if (!bus || !audioContext) return;
+  const now = audioContext.currentTime;
+  bus.gain.cancelScheduledValues(now);
+  bus.gain.setTargetAtTime(.0001, now, .45);
+  meditationOscillators.forEach((oscillator) => {
+    try { oscillator.stop(now + 1.8); } catch (error) {}
+  });
+  meditationOscillators = [];
+  setTimeout(() => bus.disconnect(), 2200);
+}
+
 $('#bellButton').addEventListener('click', () => {
   const ripple = $('#bellRipple');
   ripple.classList.remove('ringing');
@@ -220,8 +288,28 @@ $('#soundToggle').addEventListener('click', (event) => {
   if (enabled) playBell();
 });
 
-$('#meditateButton').addEventListener('click', () => {
-  showToast('Hít vào thật chậm… thở ra thật nhẹ. 🌿');
-  garden.classList.add('meditating');
-  setTimeout(() => garden.classList.remove('meditating'), 4500);
+$('#meditateButton').addEventListener('click', async (event) => {
+  const button = event.currentTarget;
+  meditationActive = !meditationActive;
+  button.setAttribute('aria-pressed', String(meditationActive));
+  garden.classList.toggle('meditating', meditationActive);
+
+  if (meditationActive) {
+    try {
+      await startMeditationSound();
+      button.setAttribute('aria-label', 'Dừng âm thanh thiền');
+      button.querySelector('small').textContent = 'Dừng thiền';
+      showToast('Âm thiền nhẹ đang phát. Chúc bạn tĩnh tâm. 🌿');
+    } catch (error) {
+      meditationActive = false;
+      garden.classList.remove('meditating');
+      button.setAttribute('aria-pressed', 'false');
+      showToast('Trình duyệt chưa phát được âm thanh. Hãy thử bấm lại nhé.');
+    }
+  } else {
+    stopMeditationSound();
+    button.setAttribute('aria-label', 'Ngồi tĩnh tâm');
+    button.querySelector('small').textContent = 'Tĩnh tâm';
+    showToast('Âm thanh thiền đã dừng.');
+  }
 });
