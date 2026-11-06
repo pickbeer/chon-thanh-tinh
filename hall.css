@@ -297,3 +297,60 @@
 @media (prefers-reduced-motion: reduce) {
   .altar-candle, .incense, .garden.meditating .halo { animation: none; }
 }
+
+/* Four carved pillars frame the two sides of the main aisle. */
+.hall-columns i {
+  width: 3.2%;
+  background:
+    linear-gradient(90deg, transparent 0 13%, #e6c574 14% 17%, transparent 18% 82%, #e6c574 83% 86%, transparent 87%),
+    linear-gradient(90deg, #58190f, #b64027 25%, #7f2418 50%, #c25430 74%, #56160f);
+  border-left: 1px solid #e1a95a;
+  border-right: 1px solid #4c140c;
+  box-shadow: inset 3px 0 5px #f4ce8055, inset -3px 0 6px #270b08aa, 0 0 0 1px #351008;
+}
+.hall-columns i:nth-child(1) { left: 8%; width: 3.6%; }
+.hall-columns i:nth-child(2) { left: 26%; width: 2.6%; }
+.hall-columns i:nth-child(3) { right: 26%; width: 2.6%; }
+.hall-columns i:nth-child(4) { right: 8%; width: 3.6%; }
+.hall-columns i::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: -22%;
+  right: -22%;
+  top: 0;
+  height: 16px;
+  background:
+    linear-gradient(180deg, #f0d68d 0 13%, #a33a22 15% 76%, #edc878 79% 90%, #762217 92%);
+  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+  box-shadow: 0 3px 5px #19080599;
+}
+.hall-columns i::after {
+  content: "✧\A✥\A✧\A✥\A✧";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 10%;
+  bottom: 9%;
+  overflow: hidden;
+  border-left: 1px solid #e9c77788;
+  border-right: 1px solid #e9c77788;
+  color: #f5d98e;
+  font: 8px/34px "Playfair Display", serif;
+  text-align: center;
+  white-space: pre;
+  text-shadow: 0 0 5px #f6ca6570;
+  opacity: .9;
+}
+.hall-columns i:nth-child(even)::after { content: "❖\A✧\A❖\A✧\A❖"; }
+@media (max-width: 620px) {
+  .hall-columns i:nth-child(1) { left: 4%; width: 4%; }
+  .hall-columns i:nth-child(2) { left: 21%; width: 3%; }
+  .hall-columns i:nth-child(3) { right: 21%; width: 3%; }
+  .hall-columns i:nth-child(4) { right: 4%; width: 4%; }
+  .hall-columns i::before { height: 12px; }
+  .hall-columns i::after { font-size: 7px; line-height: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hall-columns i::before, .hall-columns i::after { text-shadow: none; }
+}
