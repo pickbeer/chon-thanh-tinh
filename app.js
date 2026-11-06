@@ -154,6 +154,7 @@ function enterRoom(room) {
   $('#enterHallButton').hidden = inHall;
   $('#roomCaption').textContent = inHall ? 'CHÍNH ĐIỆN' : 'SÂN CHÙA';
   $('.caption-hint').textContent = inHall ? 'Xin giữ lòng thanh tịnh' : 'Một nơi để thở chậm lại';
+  renderPresence(presenceData);
   if (visitor && currentUid && database) {
     visitor = { ...visitor, room };
     set(ref(database, `presence/${currentUid}`), visitor).catch(() => {});
