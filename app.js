@@ -216,7 +216,7 @@ function playMeditationChime() {
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
     gain.gain.setValueAtTime(.0001, now);
-    gain.gain.exponentialRampToValueAtTime([.014, .009, .005, .002][index], now + 1.1);
+    gain.gain.exponentialRampToValueAtTime([.03, .02, .012, .005][index], now + 1.1);
     gain.gain.exponentialRampToValueAtTime(.0001, now + 11.5);
     oscillator.connect(gain).connect(meditationBus);
     oscillator.start(now);
@@ -237,7 +237,7 @@ async function startMeditationSound() {
   const now = audioContext.currentTime;
   const bus = audioContext.createGain();
   bus.gain.setValueAtTime(.0001, now);
-  bus.gain.linearRampToValueAtTime(.32, now + 3.5);
+  bus.gain.linearRampToValueAtTime(.42, now + 3.5);
   bus.connect(audioContext.destination);
   meditationBus = bus;
 
@@ -246,7 +246,7 @@ async function startMeditationSound() {
   filter.frequency.value = 1050;
   filter.connect(bus);
 
-  [[196, .028], [293.66, .016], [392, .008], [587.33, .0025]].forEach(([frequency, volume]) => {
+  [[196, .05], [293.66, .026], [392, .013], [587.33, .004]].forEach(([frequency, volume]) => {
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
     oscillator.type = 'sine';
