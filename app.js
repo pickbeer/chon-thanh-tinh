@@ -210,17 +210,17 @@ function playBell() {
 function playMeditationChime() {
   if (!audioContext || !meditationBus) return;
   const now = audioContext.currentTime;
-  [220, 330, 440, 659].forEach((frequency, index) => {
+  [293.66, 392, 587.33, 783.99].forEach((frequency, index) => {
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
     gain.gain.setValueAtTime(.0001, now);
-    gain.gain.exponentialRampToValueAtTime([.026, .014, .008, .003][index], now + .35);
-    gain.gain.exponentialRampToValueAtTime(.0001, now + 7.5);
+    gain.gain.exponentialRampToValueAtTime([.014, .009, .005, .002][index], now + 1.1);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + 11.5);
     oscillator.connect(gain).connect(meditationBus);
     oscillator.start(now);
-    oscillator.stop(now + 7.6);
+    oscillator.stop(now + 11.6);
   });
 }
 
@@ -237,16 +237,16 @@ async function startMeditationSound() {
   const now = audioContext.currentTime;
   const bus = audioContext.createGain();
   bus.gain.setValueAtTime(.0001, now);
-  bus.gain.linearRampToValueAtTime(.46, now + 2);
+  bus.gain.linearRampToValueAtTime(.32, now + 3.5);
   bus.connect(audioContext.destination);
   meditationBus = bus;
 
   const filter = audioContext.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.value = 480;
+  filter.frequency.value = 1050;
   filter.connect(bus);
 
-  [[110, .055], [164.81, .025], [220, .012]].forEach(([frequency, volume]) => {
+  [[196, .028], [293.66, .016], [392, .008], [587.33, .0025]].forEach(([frequency, volume]) => {
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
     oscillator.type = 'sine';
@@ -258,7 +258,7 @@ async function startMeditationSound() {
   });
 
   playMeditationChime();
-  meditationChimeTimer = setInterval(playMeditationChime, 12500);
+  meditationChimeTimer = setInterval(playMeditationChime, 17500);
 }
 
 function stopMeditationSound() {
