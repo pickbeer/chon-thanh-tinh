@@ -259,22 +259,6 @@ async function startMeditationSound() {
   bus.connect(audioContext.destination);
   meditationBus = bus;
 
-  const filter = audioContext.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.value = 1050;
-  filter.connect(bus);
-
-  [[196, .05], [293.66, .026], [392, .013], [587.33, .004]].forEach(([frequency, volume]) => {
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    oscillator.type = 'sine';
-    oscillator.frequency.value = frequency;
-    gain.gain.value = volume;
-    oscillator.connect(gain).connect(filter);
-    oscillator.start(now);
-    meditationOscillators.push(oscillator);
-  });
-
   playMeditationChime();
   meditationChimeTimer = setInterval(playMeditationChime, 26000);
 }
