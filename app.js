@@ -210,18 +210,36 @@ function playBell() {
 function playMeditationChime() {
   if (!audioContext || !meditationBus) return;
   const now = audioContext.currentTime;
-  [293.66, 392, 587.33, 783.99].forEach((frequency, index) => {
+  const melody = [
+    [392, 0], [440, 1.4], [523.25, 2.8], [440, 4.2],
+    [392, 5.6], [329.63, 7.4], [349.23, 8.8], [440, 10.2],
+    [523.25, 11.6], [587.33, 13.2], [523.25, 14.6], [440, 16],
+    [392, 17.6], [349.23, 19], [392, 20.4], [440, 21.8]
+  ];
+  const harmony = [
+    [261.63, 0.2], [293.66, 3], [329.63, 5.8], [293.66, 8.6],
+    [261.63, 11.4], [220, 14.2], [261.63, 17], [293.66, 19.8]
+  ];
+
+  function playNote(frequency, delay, volume, length, type = 'sine') {
+    const start = now + delay;
     const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    oscillator.type = 'sine';
+    const envelope = audioContext.createGain();
+    oscillator.type = type;
     oscillator.frequency.value = frequency;
-    gain.gain.setValueAtTime(.0001, now);
-    gain.gain.exponentialRampToValueAtTime([.03, .02, .012, .005][index], now + 1.1);
-    gain.gain.exponentialRampToValueAtTime(.0001, now + 11.5);
-    oscillator.connect(gain).connect(meditationBus);
-    oscillator.start(now);
-    oscillator.stop(now + 11.6);
+    envelope.gain.setValueAtTime(.0001, start);
+    envelope.gain.exponentialRampToValueAtTime(volume, start + .42);
+    envelope.gain.exponentialRampToValueAtTime(.0001, start + length);
+    oscillator.connect(envelope).connect(meditationBus);
+    oscillator.start(start);
+    oscillator.stop(start + length + .05);
+  }
+
+  melody.forEach(([frequency, delay]) => {
+    playNote(frequency, delay, .026, 3.6);
+    playNote(frequency * 2, delay, .002, 2.8);
   });
+  harmony.forEach(([frequency, delay]) => playNote(frequency, delay, .012, 4.2));
 }
 
 async function startMeditationSound() {
@@ -258,7 +276,7 @@ async function startMeditationSound() {
   });
 
   playMeditationChime();
-  meditationChimeTimer = setInterval(playMeditationChime, 17500);
+  meditationChimeTimer = setInterval(playMeditationChime, 26000);
 }
 
 function stopMeditationSound() {
