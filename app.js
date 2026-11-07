@@ -225,8 +225,14 @@ function playMeditationChime() {
 }
 
 async function startMeditationSound() {
+  if (meditationBus) return;
   audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
-  await audioContext.resume();
+  const resumePromise = audioContext.resume();
+  await Promise.race([
+    resumePromise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Audio needs a user gesture')), 900))
+  ]);
+  if (audioContext.state !== 'running') throw new Error('Audio is blocked until a user gesture');
 
   const now = audioContext.currentTime;
   const bus = audioContext.createGain();
@@ -280,39 +286,49 @@ $('#bellButton').addEventListener('click', () => {
   showToast('Tiếng chuông nhắc ta trở về phút giây hiện tại.');
 });
 
-$('#soundToggle').addEventListener('click', (event) => {
-  const button = event.currentTarget;
-  const enabled = button.getAttribute('aria-pressed') !== 'true';
-  button.setAttribute('aria-pressed', String(enabled));
-  $('#soundLabel').textContent = `Chuông: ${enabled ? 'bật' : 'tắt'}`;
+function syncMeditationControls(enabled) {
+  meditationActive = enabled;
+  garden.classList.toggle('meditating', enabled);
+  const soundToggle = $('#soundToggle');
+  soundToggle.setAttribute('aria-pressed', String(enabled));
   $('#soundIcon').textContent = enabled ? '♫' : '♪';
-  if (enabled) playBell();
-});
+  $('#soundLabel').textContent = `Nhạc thiền: ${enabled ? 'đang phát' : 'tắt'}`;
 
-$('#meditateButton').addEventListener('click', async (event) => {
-  const button = event.currentTarget;
-  meditationActive = !meditationActive;
-  button.setAttribute('aria-pressed', String(meditationActive));
-  garden.classList.toggle('meditating', meditationActive);
+  const meditateButton = $('#meditateButton');
+  meditateButton.setAttribute('aria-pressed', String(enabled));
+  meditateButton.setAttribute('aria-label', enabled ? 'Dừng âm thanh thiền' : 'Ngồi tĩnh tâm');
+  meditateButton.title = enabled ? 'Dừng âm thanh thiền' : 'Bật âm thanh thiền';
+  meditateButton.querySelector('small').textContent = enabled ? 'Dừng thiền' : 'Tĩnh tâm';
+}
 
-  if (meditationActive) {
-    try {
-      await startMeditationSound();
-      button.setAttribute('aria-label', 'Dừng âm thanh thiền');
-      button.title = 'Dừng âm thanh thiền';
-      button.querySelector('small').textContent = 'Dừng thiền';
-      showToast('Âm thiền nhẹ đang phát. Chúc bạn tĩnh tâm. 🌿');
-    } catch (error) {
-      meditationActive = false;
-      garden.classList.remove('meditating');
-      button.setAttribute('aria-pressed', 'false');
-      showToast('Trình duyệt chưa phát được âm thanh. Hãy thử bấm lại nhé.');
-    }
-  } else {
+async function setMeditationEnabled(enabled, announce = false) {
+  if (!enabled) {
     stopMeditationSound();
-    button.setAttribute('aria-label', 'Ngồi tĩnh tâm');
-    button.title = 'Bật âm thanh thiền';
-    button.querySelector('small').textContent = 'Tĩnh tâm';
-    showToast('Âm thanh thiền đã dừng.');
+    syncMeditationControls(false);
+    if (announce) showToast('Nhạc thiền đã dừng.');
+    return false;
   }
+
+  try {
+    await startMeditationSound();
+    syncMeditationControls(true);
+    if (announce) showToast('Nhạc thiền nhẹ đang phát. Chúc bạn tĩnh tâm. 🌿');
+    return true;
+  } catch (error) {
+    syncMeditationControls(false);
+    $('#soundLabel').textContent = 'Chạm để bật nhạc thiền';
+    if (announce) showToast('Trình duyệt chặn tự phát. Chạm vào đây để bật nhạc thiền.');
+    return false;
+  }
+}
+
+$('#soundToggle').addEventListener('click', () => {
+  setMeditationEnabled(!meditationActive, true);
 });
+
+$('#meditateButton').addEventListener('click', () => {
+  setMeditationEnabled(!meditationActive, true);
+});
+
+// Try to start ambience on arrival. Browsers that block autoplay show a one-tap fallback.
+setMeditationEnabled(true);
